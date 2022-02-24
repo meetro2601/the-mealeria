@@ -45,7 +45,7 @@ export default function Login() {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
-        alert()
+        alert("Signed In Successfully !!")
         router.push('/')
         setuser({
           email: "",
