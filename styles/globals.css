@@ -25,7 +25,7 @@ a {
 }
 
 .user-avatar {
-  background-color: rgb(105, 196, 187);
+  background-color: rgb(105, 196, 187) !important;
   font-weight: 600;
   font-size: 20px;
   height: 35px;

@@ -45,7 +45,7 @@ function Header() {
   return (
     <>
       <nav style={{zIndex:"100"}} className="d-flex justify-content-evenly bg-white shadow align-items-center py-3 position-fixed w-100">
-        <Link href="/">
+        <Link passHref href="/">
           <h1 style={{cursor:'pointer'}} className="fw-bold">
             <i>The Mealeria</i>
           </h1>
@@ -70,7 +70,7 @@ function Header() {
               </IconButton>
             </Tooltip>
           ) : (
-            <Link href="/user/login">
+            <Link passHref href="/user/login">
               <Tooltip title="User Login">
                 <IconButton>
                   <Avatar className="user-avatar bg-secondary"></Avatar>
@@ -97,7 +97,7 @@ function Header() {
             <Typography className="pt-2">{currentUser.email}</Typography>
             <Button
               onClick={handleSignout}
-              variant="outlined"
+              variant="contained"
               color="error"
               className="mt-3"
             >

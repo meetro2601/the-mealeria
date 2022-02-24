@@ -3,7 +3,6 @@ import Link from "next/link";
 import {createUserWithEmailAndPassword, getAuth, updateProfile} from 'firebase/auth'
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {db} from '../../firebase/firebaseconfig'
 
 const emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@[a-zA-Z0-9-]{2,})+(.[a-zA-Z0-9-]{2,})+(?:.[a-zA-Z0-9-]{2,})*$/;

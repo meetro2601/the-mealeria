@@ -1,13 +1,10 @@
 import { TextField, Button } from "@mui/material";
-import { collection, Query, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import { AuthContext } from "../_app";
+import { useState } from "react";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
-import {db} from '../../firebase/firebaseconfig'
 
-export default function Login(props) {
+export default function Login() {
 
   const router = useRouter();
    
@@ -48,6 +45,7 @@ export default function Login(props) {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
+        alert()
         router.push('/')
         setuser({
           email: "",

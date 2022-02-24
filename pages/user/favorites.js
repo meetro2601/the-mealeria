@@ -19,7 +19,7 @@ export default function FavMeals() {
         router.push("/user/login");
       }
     });
-  }, [auth]);
+  }, [auth,router]);
 
   return (
     <>

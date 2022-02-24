@@ -1,8 +1,16 @@
 // For Route @ domain/about/"any dynamic value"
 
+import { useRouter } from "next/router";
 import { Col, Row } from "react-bootstrap";
 
 export default function Detail(props) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <div className="container py-md-5 my-5 text-center">Loading....</div>
+    );
+  }
 
   const mealDetail = props.mealInfo.meals[0];
   const ingredients = [
@@ -31,34 +39,58 @@ export default function Detail(props) {
   return (
     <div className="container py-md-5 my-5">
       <div className="mb-5 text-center text-md-start">
-          <h2 className="fw-bold mb-3">{mealDetail.strMeal}</h2>
-          <p className="mb-2"><b><i>Category: </i></b>{mealDetail.strCategory}</p>
-          <p className="mb-2"><b><i>Area: </i></b>{mealDetail.strArea}</p>
+        <h2 className="fw-bold mb-3">{mealDetail.strMeal}</h2>
+        <p className="mb-2">
+          <b>
+            <i>Category: </i>
+          </b>
+          {mealDetail.strCategory}
+        </p>
+        <p className="mb-2">
+          <b>
+            <i>Area: </i>
+          </b>
+          {mealDetail.strArea}
+        </p>
       </div>
       <Row>
         <Col md={6} className="text-center mb-5 order-md-2">
-          <img className="w-75" src={mealDetail.strMealThumb}></img>
+          <img
+            className="w-75"
+            alt={mealDetail.strMeal}
+            src={mealDetail.strMealThumb}
+          ></img>
         </Col>
         <Col md={6} className="order-md-1">
-          <h6 className="fw-bold text-center text-md-start"><i>Ingredients: </i></h6>
-          <p style={{textAlign:'justify'}} className="text-center text-md-start">
-          {
-            ingredients.map((ingdt,index) => {
-              if(index === 0){
-                return ingdt
-              }else if(ingdt){
-                return ', '+ingdt
+          <h6 className="fw-bold text-center text-md-start">
+            <i>Ingredients: </i>
+          </h6>
+          <p
+            style={{ textAlign: "justify" }}
+            className="text-center text-md-start"
+          >
+            {ingredients.map((ingdt, index) => {
+              if (index === 0) {
+                return ingdt;
+              } else if (ingdt) {
+                return ", " + ingdt;
               }
-            })
-          }.
+            })}
+            .
           </p>
-          <h6 className="fw-bold mt-4 text-center text-md-start"><i>Instructions: </i></h6>
-          <p style={{textAlign:'justify'}} className="pb-3">{mealDetail.strInstructions}</p>
-          <p>To watch a video, <a href={mealDetail.strYoutube}>Click here</a>.</p>
+          <h6 className="fw-bold mt-4 text-center text-md-start">
+            <i>Instructions: </i>
+          </h6>
+          <p style={{ textAlign: "justify" }} className="pb-3">
+            {mealDetail.strInstructions}
+          </p>
+          <p>
+            To watch a video, <a href={mealDetail.strYoutube}>Click here</a>.
+          </p>
         </Col>
       </Row>
     </div>
-  )
+  );
 }
 
 export async function getStaticPaths() {
