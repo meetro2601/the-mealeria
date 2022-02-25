@@ -14,13 +14,11 @@ export default function FavMeals() {
   const auth = getAuth();
 
   useEffect(() => {
-    if(router.pathname === '/user/favorite'){ 
       onAuthStateChanged(auth, (user) => {
-        if (!user) {
+        if (!user && router.pathname === '/user/favorite') {
         router.push("/user/login");
       }
     });
-  }
   }, [auth]);
 
   return (
