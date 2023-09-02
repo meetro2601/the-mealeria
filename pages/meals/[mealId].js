@@ -1,6 +1,7 @@
 // For Route @ domain/about/"any dynamic value"
 
 import { useRouter } from "next/router";
+import { notFound } from 'next/navigation'
 import { Col, Row } from "react-bootstrap";
 
 export default function Detail(props) {
@@ -109,6 +110,10 @@ export async function getStaticProps(context) {
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${context.params.mealId}`
   );
   const data = await res.json();
+
+  if(data.meals == null){
+    return {notFound:true}
+  }
 
   return {
     props: {

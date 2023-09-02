@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }) => {
         setloading(false);
       }
     });
-  });
+  },[]);
 
   return (
     <AuthContext.Provider
-      value={{ currentUser, loading, badgeCount, favMeals }}
+      value={{ currentUser, loading, badgeCount,setbadgeCount, favMeals, setfavMeals }}
     >
       {children}
     </AuthContext.Provider>

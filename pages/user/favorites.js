@@ -10,12 +10,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 export default function FavMeals() {
   const router = useRouter();
 
-  const { loading, favMeals } = useAuth();
+  const { favMeals } = useAuth();
   const auth = getAuth();
 
   useEffect(() => {
       onAuthStateChanged(auth, (user) => {
-        if (!user && router.pathname === '/user/favorite') {
+        if (!user && router.pathname === '/user/favorites') {
         router.push("/user/login");
       }
     });
@@ -24,7 +24,6 @@ export default function FavMeals() {
   return (
     <>
       <Header></Header>
-      {loading ? <CircularProgress></CircularProgress> : null}
       <div className="container py-5">
       {(favMeals.length !== 0) ? (
         <>

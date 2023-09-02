@@ -6,7 +6,7 @@ import { IconButton, Input, InputAdornment } from "@mui/material";
 import { LinearProgress } from "@mui/material";
 import { Col, Row } from "react-bootstrap";
 import MealCard from "../components/MealCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../components/AuthContext";
 
@@ -14,9 +14,29 @@ import { useAuth } from "../components/AuthContext";
 export default function Home(props) {
   
   const router = useRouter();
-  const meals = props.mealData;
-  const {loading} = useAuth()
+  const {loading,favMeals} = useAuth()
+  const [meals, setmeals] = useState(props.mealData)
   const [searchWord, setsearchWord] = useState("");
+
+  useEffect(() => {
+      setmeals(props.mealData)
+  }, [props.mealData])
+  
+
+  useEffect(() => {
+    console.log(favMeals)
+    const list = props.mealData.map((item,index)=>{
+      favMeals.map(meal =>{
+        if(meal.idMeal == item.idMeal){
+          item.favorite = true
+          return item
+        }
+      })
+      return item
+    })
+    setmeals(list)
+  }, [favMeals,props.mealData])
+  
 
 
   const changeHandler = (e) => {
@@ -32,7 +52,7 @@ export default function Home(props) {
     <>
       <Header></Header>
       {loading ? <LinearProgress></LinearProgress> : null}
-      <div style={{paddingTop:'135px'}} className="text-center px-5">
+      <div style={{paddingTop:'135px'}} className="text-center container">
         <Input
           type="text"
           placeholder="Search Meal"
@@ -47,7 +67,7 @@ export default function Home(props) {
           onChange={changeHandler}
         ></Input>
         <Row className="my-5">
-          {meals ? (
+          {meals.length != 0 ? (
             meals.map((item, index) => {
               return (
                 <Col className="mb-4 text-center" lg={3} md={4} xs={6} key={index}>
@@ -70,7 +90,10 @@ export async function getServerSideProps(context) {
     `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
   );
   const data = await res.json();
-  data.meals.map(item => item.favorite = false)
+  if(data.meals == null){
+    return {props:{mealData:[]}}
+  }
+  data.meals?.map(item => item.favorite = false)
 
   return {
     props: {

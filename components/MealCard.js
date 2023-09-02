@@ -14,8 +14,7 @@ import { useAuth } from "./AuthContext";
 
 function MealCard({ meal }) {
   
-  const {currentUser} = useAuth()
-
+  const {currentUser,badgeCount,setbadgeCount,favMeals,setfavMeals} = useAuth()
 
   const router = useRouter();
   const {
@@ -37,23 +36,34 @@ function MealCard({ meal }) {
     if (docSnap.exists() && meal.favorite) {
       meal.favorite = false
       deleteDoc(docRef)
-    }else if(docSnap.exists() && !meal.favorite){
-      alert('Meal already exists')
-    } else {
+      setbadgeCount(badgeCount-1)
+      setfavMeals((prevState)=>{
+        return prevState.filter(item => item.idMeal != meal.idMeal)
+      })
+    }
+    // else if(docSnap.exists() && !meal.favorite){
+    //   alert('Meal already exists')
+    // } 
+    else {
       meal.favorite = true
       setDoc(docRef,meal)
+      setbadgeCount(badgeCount+1)
+      setfavMeals((prevState)=>([...prevState,meal]))
     }
   };
 
   return (
     <>
       <Card className="position-relative">
-        <IconButton onClick={()=>favoriteHandler(meal)}>
+        {
+          currentUser ?
+          <IconButton onClick={()=>favoriteHandler(meal)}>
           {favorite ? <Star color="error"></Star> : <StarOutline></StarOutline>}
-        </IconButton>
+        </IconButton> : null
+        }
         <CardActionArea onClick={() => cardClickHandler(id)}>
         <CardMedia component="img" image={image}></CardMedia>
-          <CardContent style={{ height: "180px" }} className="">
+          <CardContent style={{ height: "180px" }} className="p-3">
             <h5 className="mb-3">
               <i>Name:</i> {name}
             </h5>
